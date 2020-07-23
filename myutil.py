@@ -1,5 +1,6 @@
 g_oldLogType = "none"  # none, single, multi
 
+
 def log(name, value):
     global g_oldLogType
     valueStr = "{}".format(value)
@@ -14,3 +15,24 @@ def log(name, value):
     else:
         g_oldLogType = "single"
         print("{} : {}".format(name, valueStr))
+
+
+def model_to_str(model):
+    resStr = ""
+    resStr += "["
+
+    for param in model.parameters():
+        resStr += "{:6f}, ".format(param.item())
+
+    resStr += "]"
+    return resStr
+
+
+def log_model(name, model):
+    print("")
+    print("{} : ".format(name))
+
+    for param in model.parameters():
+        print("    {}".format(param.item()))
+
+    print("")
