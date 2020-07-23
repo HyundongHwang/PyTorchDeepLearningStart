@@ -40,7 +40,6 @@ for epoch in range(nb_epochs + 1):
 ################################################################################
 # optimizer.zero_grad()가 필요한 이유
 
-
 import torch
 
 w = torch.tensor(2.0, requires_grad=True)
