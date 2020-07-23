@@ -5,7 +5,7 @@ def log(name, value):
     valueStr = "{}".format(value)
 
     if "\n" in valueStr:
-        if g_oldLogType is "multi":
+        if g_oldLogType == "multi":
             print("")
         g_oldLogType = "multi"
         print("{} : ".format(name))
@@ -13,4 +13,4 @@ def log(name, value):
         print("")
     else:
         g_oldLogType = "single"
-        print("{} : {}", name, valueStr)
+        print("{} : {}".format(name, valueStr))
