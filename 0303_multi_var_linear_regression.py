@@ -1,6 +1,7 @@
 ################################################################################
 # 다중 선형 회귀(Multivariable Linear regression)
 
+import myutil as mu
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -55,8 +56,8 @@ x_train  =  torch.FloatTensor([[73,  80,  75],
 
 y_train  =  torch.FloatTensor([[152],  [185],  [180],  [196],  [142]])
 
-print(x_train.shape)
-print(y_train.shape)
+mu.log("x_train.shape", x_train.shape)
+mu.log("y_train.shape", y_train.shape)
 
 W = torch.zeros((3, 1), requires_grad=True)
 b = torch.zeros(1, requires_grad=True)
