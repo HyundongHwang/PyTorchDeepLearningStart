@@ -76,7 +76,7 @@ b = torch.zeros(1, requires_grad=True)
 # optimizer 설정
 optimizer = optim.SGD([W, b], lr=1e-5)
 
-nb_epochs = 20
+nb_epochs = 1000
 for epoch in range(nb_epochs + 1):
 
     # H(x) 계산
@@ -91,7 +91,9 @@ for epoch in range(nb_epochs + 1):
     cost.backward()
     optimizer.step()
 
+
     # 100번마다 로그 출력
-    print('Epoch {:4d}/{} hypothesis: {} Cost: {:.6f}'.format(
-        epoch, nb_epochs, hypothesis.squeeze().detach(), cost.item()
-    ))
+    if epoch % 100 == 0:
+        print('Epoch {:4d}/{} hypothesis: {} Cost: {:.6f}'.format(
+            epoch, nb_epochs, hypothesis.squeeze().detach(), cost.item()
+        ))
