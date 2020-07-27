@@ -7,7 +7,6 @@ from torch.utils.data import TensorDataset  # 텐서데이터셋
 from torch.utils.data import DataLoader  # 데이터로더
 from torch.utils.data import Dataset
 
-
 ################################################################################
 # - nn.Module로 구현하는 로지스틱 회귀
 #
@@ -20,6 +19,14 @@ from torch.utils.data import Dataset
 # - 로지스틱 회귀의 가설식이 됩니다.
 #
 # - 파이토치를 통해 이를 구현해봅시다.
+
+multi_lines = """
+# - 파이토치에서는 nn.Sigmoid()를 통해서 시그모이드 함수를 구현하므로
+# - 결과적으로 nn.Linear()의 결과를 nn.Sigmoid()를 거치게하면
+# - 로지스틱 회귀의 가설식이 됩니다.
+"""
+
+lineArray = multi_lines.splitlines()
 
 
 torch.manual_seed(1)
@@ -34,11 +41,14 @@ model = nn.Sequential(
     nn.Sigmoid()
 )
 
-mu.log_model("model", model)
-mu.log_tensor("model(x_train)", model(x_train))
+mu.log("model", model)
+mu.log("model(x_train)", model(x_train))
 
 optimizer = optim.SGD(model.parameters(), lr=1)
 nb_epoches = 1000
+
+plt_epoch = []
+plt_accuracy = []
 
 for epoch in range(nb_epoches + 1):
     hypothesis = model(x_train)
@@ -48,10 +58,13 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        print("-" * 80)
         prediction = hypothesis > torch.FloatTensor([0.5])
         correct_prediction = prediction.float() == y_train
         accuracy = correct_prediction.sum().item() / len(correct_prediction)
+        plt_epoch.append(epoch)
+        plt_accuracy.append(accuracy)
+
+        print("-" * 80)
 
         print("epoch {:4d}/{} cost {:.6f} accuracy : {:2.2f}".format(
             epoch,
@@ -60,4 +73,11 @@ for epoch in range(nb_epoches + 1):
             accuracy
         ))
 
-        mu.log_model("model", model)
+        mu.log("model", model)
+
+
+import matplotlib.pyplot as plt  # 맷플롯립사용
+plt.plot(plt_epoch, plt_accuracy, label="accuracy")
+plt.xlabel("epoch")
+plt.legend()
+plt.show()

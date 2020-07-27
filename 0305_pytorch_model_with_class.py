@@ -42,6 +42,6 @@ for epoch in range(nb_epoches + 1):
 
     if epoch % 100 == 0 :
         print("epoch : {:4d}/{} cost : {:.6f} model : {}".format(
-            epoch, nb_epoches, cost.item(), mu.model_to_str(model)
+            epoch, nb_epoches, cost.item(), mu.to_str(model)
         ))
 

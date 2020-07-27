@@ -60,4 +60,4 @@ for epoch in range(nb_epoches + 1):
             cost.item()
         ))
 
-        mu.log_model("model", model)
+        mu.log("model", model)

@@ -17,7 +17,7 @@ x_train = torch.FloatTensor([[1], [2], [3]])
 y_train = torch.FloatTensor([[2], [4], [6]])
 
 model = nn.Linear(1, 1)
-mu.log_model("model", model)
+mu.log("model", model)
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 nb_epochs = 2000
 
@@ -34,7 +34,7 @@ for epoch in range(nb_epochs + 1):
             epoch,
             nb_epochs,
             cost.item(),
-            mu.model_to_str(model)
+            mu.to_str(model)
         ))
 
 ################################################################################
@@ -46,7 +46,7 @@ for epoch in range(nb_epochs + 1):
 # - 이제 학습 후의 W와 b의 값을 출력해보겠습니다.
 # - W의 값이 2에 가깝고, b의 값이 0에 가까운 것을 볼 수 있습니다.
 
-mu.log_model("model", model)
+mu.log("model", model)
 new_var = torch.FloatTensor([[4.0]])
 pred_y = model(new_var)
 mu.log("new_var.item()", new_var.item())

@@ -104,8 +104,8 @@ for epoch in range(nb_epoches + 1):
             cost.item()
         ))
 
-        mu.log_tensor("W", W)
-        mu.log_tensor("b", b)
+        mu.log("W", W)
+        mu.log("b", b)
 
 prediction = hypothesis >= torch.FloatTensor([0.5])
 mu.log("prediction", prediction)
