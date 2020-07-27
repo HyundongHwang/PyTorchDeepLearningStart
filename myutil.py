@@ -33,6 +33,6 @@ def log_model(name, model):
     print("{} : ".format(name))
 
     for param in model.parameters():
-        print("    {}".format(param.item()))
+        print("    {} {}".format(param.shape, param.data))
 
     print("")
