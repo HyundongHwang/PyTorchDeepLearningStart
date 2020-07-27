@@ -8,6 +8,12 @@ from torch.utils.data import DataLoader  # 데이터로더
 from torch.utils.data import Dataset
 
 
+################################################################################
+# - 커스텀 데이터셋(Custom Dataset)
+#   - 그런데 torch.utils.data.Dataset을 상속받아 직접 커스텀 데이터셋(Custom Dataset)을 만드는 경우도 있습니다.
+#   - torch.utils.data.Dataset은 파이토치에서 데이터셋을 제공하는 추상 클래스입니다.
+#   - Dataset을 상속받아 다음 메소드들을 오버라이드 하여 커스텀 데이터셋을 만들어보겠습니다.
+
 class CustomDataset(Dataset):
     def __init__(self):
         self.x_data = [[73, 80, 75],
