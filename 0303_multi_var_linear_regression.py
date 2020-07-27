@@ -23,8 +23,9 @@ b = torch.zeros(1, requires_grad=True)
 
 # optimizer 설정
 optimizer = optim.SGD([w1, w2, w3, b], lr=1e-5)
-
 nb_epochs = 1000
+mu.plt_init()
+
 for epoch in range(nb_epochs + 1):
 
     # H(x) 계산
@@ -40,9 +41,13 @@ for epoch in range(nb_epochs + 1):
 
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        print('Epoch {:4d}/{} w1: {:.3f} w2: {:.3f} w3: {:.3f} b: {:.3f} Cost: {:.6f}'.format(
-            epoch, nb_epochs, w1.item(), w2.item(), w3.item(), b.item(), cost.item()
-        ))
+        mu.log_epoch(epoch, nb_epochs, cost)
+        mu.log("w1", w1)
+        mu.log("w2", w2)
+        mu.log("w3", w3)
+        mu.log("b", b)
+
+mu.plt_show()
 
 
 ################################################################################
@@ -77,6 +82,8 @@ b = torch.zeros(1, requires_grad=True)
 # optimizer 설정
 optimizer = optim.SGD([W, b], lr=1e-5)
 
+mu.plt_init()
+
 nb_epochs = 1000
 for epoch in range(nb_epochs + 1):
 
@@ -95,6 +102,8 @@ for epoch in range(nb_epochs + 1):
 
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        print('Epoch {:4d}/{} hypothesis: {} Cost: {:.6f}'.format(
-            epoch, nb_epochs, hypothesis.squeeze().detach(), cost.item()
-        ))
+        mu.log_epoch(epoch, nb_epochs, cost)
+        mu.log("W", W)
+        mu.log("b", b)
+
+mu.plt_show()

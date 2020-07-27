@@ -33,9 +33,9 @@ for epoch in range(nb_epochs + 1):
 
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        print('Epoch {:4d}/{} W: {:.3f}, b: {:.3f} Cost: {:.6f}'.format(
-            epoch, nb_epochs, W.item(), b.item(), cost.item()
-        ))
+        mu.log_epoch(epoch, nb_epochs, cost)
+        mu.log("W", W)
+        mu.log("b", b)
 
 ################################################################################
 # optimizer.zero_grad()가 필요한 이유

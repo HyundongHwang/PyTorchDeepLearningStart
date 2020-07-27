@@ -20,15 +20,17 @@ x_train = torch.FloatTensor([[73, 80, 75],
 y_train = torch.FloatTensor([[152], [185], [180], [196], [142]])
 
 dataset = TensorDataset(x_train, y_train)
-
 dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
 model = nn.Linear(3, 1)
 optimizer = optim.SGD(model.parameters(), lr=1e-5)
 nb_epoches = 20
+mu.plt_init()
 
 for epoch in range(nb_epoches + 1):
     print("=" * 80)
+
     for batch_idx, samples in enumerate(dataloader):
+        print("-" * 80)
         print("-" * 80)
         mu.log("batch_idx", batch_idx)
         mu.log("samples", samples)
@@ -37,13 +39,6 @@ for epoch in range(nb_epoches + 1):
         optimizer.zero_grad()
         cost.backward()
         optimizer.step()
+        mu.log_epoch(epoch, nb_epoches, cost, model=model)
 
-        print("epoch {:4d}/{} batch {}/{} cost {:.6f}".format(
-            epoch,
-            nb_epoches,
-            batch_idx + 1,
-            len(dataloader),
-            cost.item()
-        ))
-
-        mu.log("model", model)
+mu.plt_show()

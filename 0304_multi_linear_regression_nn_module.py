@@ -20,6 +20,7 @@ model = nn.Linear(1, 1)
 mu.log("model", model)
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 nb_epochs = 2000
+mu.plt_init()
 
 for epoch in range(nb_epochs + 1):
     hyperthesis = model(x_train)
@@ -30,12 +31,9 @@ for epoch in range(nb_epochs + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        print("epoch {:4d}/{} cost : {:.6f} model : {}".format(
-            epoch,
-            nb_epochs,
-            cost.item(),
-            mu.to_str(model)
-        ))
+        mu.log_epoch(epoch, nb_epochs, cost, model=model)
+
+mu.plt_show()
 
 ################################################################################
 # - 학습이 완료되었습니다. Cost의 값이 매우 작습니다.

@@ -32,6 +32,8 @@ nb_epoches = 2000
 x_train = torch.FloatTensor([[1], [2], [3]])
 y_train = torch.FloatTensor([[2], [4], [6]])
 
+mu.plt_init()
+
 for epoch in range(nb_epoches + 1):
     predication = model(x_train)
     cost = F.mse_loss(predication, y_train)
@@ -41,7 +43,6 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0 :
-        print("epoch : {:4d}/{} cost : {:.6f} model : {}".format(
-            epoch, nb_epoches, cost.item(), mu.to_str(model)
-        ))
+        mu.log_epoch(epoch, nb_epoches, cost, model=model)
 
+mu.plt_show()

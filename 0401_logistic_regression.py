@@ -87,6 +87,7 @@ W = torch.zeros((2, 1), requires_grad=True)
 b = torch.zeros(1, requires_grad=True)
 optimizer = optim.SGD([W, b], lr=1)
 nb_epoches = 1000
+mu.plt_init()
 
 for epoch in range(nb_epoches + 1):
     hypothesis = torch.sigmoid(x_train.matmul(W) + b)
@@ -97,15 +98,12 @@ for epoch in range(nb_epoches + 1):
 
     if epoch % 100 == 0:
         print("-" * 80)
-
-        print("epoch {:4d}/{} cost {:.6f}".format(
-            epoch,
-            nb_epoches,
-            cost.item()
-        ))
-
+        print("-" * 80)
+        mu.log_epoch(epoch, nb_epoches, cost)
         mu.log("W", W)
         mu.log("b", b)
+
+mu.plt_show()
 
 prediction = hypothesis >= torch.FloatTensor([0.5])
 mu.log("prediction", prediction)

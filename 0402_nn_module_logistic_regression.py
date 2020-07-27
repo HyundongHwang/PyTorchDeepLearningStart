@@ -28,7 +28,6 @@ multi_lines = """
 
 lineArray = multi_lines.splitlines()
 
-
 torch.manual_seed(1)
 
 x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
@@ -61,22 +60,12 @@ for epoch in range(nb_epoches + 1):
         prediction = hypothesis > torch.FloatTensor([0.5])
         correct_prediction = prediction.float() == y_train
         accuracy = correct_prediction.sum().item() / len(correct_prediction)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy, model)
         plt_epoch.append(epoch)
         plt_accuracy.append(accuracy)
 
-        print("-" * 80)
-
-        print("epoch {:4d}/{} cost {:.6f} accuracy : {:2.2f}".format(
-            epoch,
-            nb_epoches,
-            cost.item(),
-            accuracy
-        ))
-
-        mu.log("model", model)
-
-
 import matplotlib.pyplot as plt  # 맷플롯립사용
+
 plt.plot(plt_epoch, plt_accuracy, label="accuracy")
 plt.xlabel("epoch")
 plt.legend()
