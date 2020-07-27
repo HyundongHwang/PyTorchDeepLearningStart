@@ -52,7 +52,7 @@ for epoch in range(nb_epoches + 1):
     cost.backward()
     optimizer.step()
     
-    if epoch % 10 == 0:
+    if epoch % 100 == 0:
         prediction = hypothesis >= torch.FloatTensor([0.5])
         correct_prediction = prediction.float() == y_train
         accuracy = correct_prediction.sum().item() / len(correct_prediction)
