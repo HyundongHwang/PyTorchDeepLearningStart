@@ -19,12 +19,10 @@ def log(name, value):
 
 def model_to_str(model):
     resStr = ""
-    resStr += "["
 
     for param in model.parameters():
-        resStr += "{:6f}, ".format(param.item())
+        resStr += "    {} {}\n".format(param.shape, param.data)
 
-    resStr += "]"
     return resStr
 
 
