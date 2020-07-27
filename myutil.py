@@ -5,7 +5,7 @@ def to_str(value):
     valueTypeStr = "{}".format(type(value))
     resStr = ""
 
-    if "torch.nn.modules.container." in valueTypeStr:
+    if "torch.nn.modules." in valueTypeStr:
         resStr += "{} \n".format(value)
         for param in value.parameters():
             resStr += "{} {}\n".format(param.shape, param.data)
