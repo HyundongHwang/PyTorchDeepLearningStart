@@ -17,11 +17,15 @@ def log(name, value):
         print("{} : {}".format(name, valueStr))
 
 
+def tensor_to_str(tensor):
+    resStr = "{} {}".format(tensor.shape, tensor.data)
+    return resStr
+
 def model_to_str(model):
     resStr = ""
 
     for param in model.parameters():
-        resStr += "    {} {}\n".format(param.shape, param.data)
+        resStr += "    {}\n".format(tensor_to_str(param))
 
     return resStr
 
@@ -31,6 +35,10 @@ def log_model(name, model):
     print("{} : ".format(name))
 
     for param in model.parameters():
-        print("    {} {}".format(param.shape, param.data))
+        print("    {}".format(tensor_to_str(param)))
 
     print("")
+
+
+def log_tensor(name, tensor):
+    print("{} : {}".format(name, tensor_to_str(tensor)))

@@ -41,3 +41,72 @@ plt.plot(x, y, "g")
 plt.plot([0, 0], [1, 0], ":")
 plt.title("sigmoid function")
 plt.show()
+
+################################################################################
+# - 비용 함수(Cost function)
+#   - y 의 실제값이 1일 때 −logH(x) 그래프를 사용하고
+#   - y의 실제값이 0일 때 −log(1−H(X)) 그래프를 사용해야 합니다.
+#   - 이는 다음과 같이 하나의 식으로 통합할 수 있습니다.
+# ![](https://render.githubusercontent.com/render/math?math=cost(W) = -\frac{1}{n} \sum_{i=1}^{n} [y^{(i)}logH(x^{(i)}) %2B (1-y^{(i)})log(1-H(x^{(i)}))])
+
+
+torch.manual_seed(1)
+
+x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
+y_data = [[0], [0], [0], [1], [1], [1]]
+x_train = torch.FloatTensor(x_data)
+y_train = torch.FloatTensor(y_data)
+
+W = torch.zeros((2, 1), requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+hypothesis = 1 / (1 + torch.exp(-(x_train.matmul(W) + b)))
+mu.log("hypothesis", hypothesis)
+mu.log("y_train", y_train)
+
+hypothesis = torch.sigmoid(x_train.matmul(W) + b)
+mu.log("hypothesis", hypothesis)
+mu.log("y_train", y_train)
+
+losses = -(y_train * torch.log(hypothesis)) + (1 - y_train) * torch.log(1 - hypothesis)
+cost = losses.mean()
+mu.log("losses", losses)
+mu.log("cost", cost)
+
+loss = F.binary_cross_entropy(hypothesis, y_train)
+mu.log("loss.item()", loss.item())
+
+################################################################################
+# 모델의 훈련 과정까지 추가한 전체 코드는 아래와 같습니다.
+
+x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
+y_data = [[0], [0], [0], [1], [1], [1]]
+x_train = torch.FloatTensor(x_data)
+y_train = torch.FloatTensor(y_data)
+
+W = torch.zeros((2, 1), requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+optimizer = optim.SGD([W, b], lr=1)
+nb_epoches = 1000
+
+for epoch in range(nb_epoches + 1):
+    hypothesis = torch.sigmoid(x_train.matmul(W) + b)
+    cost = -(y_train * torch.log(hypothesis) + (1 - y_train) * torch.log(1 - hypothesis)).mean()
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+
+    if epoch % 100 == 0:
+        print("-" * 80)
+
+        print("epoch {:4d}/{} cost {:.6f}".format(
+            epoch,
+            nb_epoches,
+            cost.item()
+        ))
+
+        mu.log_tensor("W", W)
+        mu.log_tensor("b", b)
+
+prediction = hypothesis >= torch.FloatTensor([0.5])
+mu.log("prediction", prediction)
+mu.log("y_data", y_data)
