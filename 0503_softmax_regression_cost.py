@@ -40,6 +40,14 @@ mu.log("y_one_hot.scatter_(dim=1, y.unsqueeze(dim=1), index=1)", y_one_hot.scatt
 # ![](https://render.githubusercontent.com/render/math?math=cost(W)%20=%20-\frac{1}{n}%20\sum_{i=1}^{n}%20\sum_{j=1}^{k}y_{j}^{(i)}\%20log(p_{j}^{(i)}))
 
 cost = (y_one_hot * -torch.log(hypothesis)).sum(dim=1).mean()
+mu.log("z", z)
+mu.log("y", y)
+mu.log("y_one_hot", y_one_hot)
+mu.log("hypothesis", hypothesis)
+mu.log("torch.log(hypothesis)", torch.log(hypothesis))
+mu.log("y_one_hot * -torch.log(hypothesis)", y_one_hot * -torch.log(hypothesis))
+mu.log("(y_one_hot * -torch.log(hypothesis)).sum(dim=1)", (y_one_hot * -torch.log(hypothesis)).sum(dim=1))
+mu.log("(y_one_hot * -torch.log(hypothesis)).sum()", (y_one_hot * -torch.log(hypothesis)).sum())
 mu.log("cost", cost)
 
 ################################################################################
