@@ -47,6 +47,7 @@ g_epoch_array = []
 g_cost_array = []
 g_accurcy_array = []
 
+
 def log_epoch(epoch, nb_epoches, cost, accuracy=None, model=None):
     global g_epoch_array
     global g_cost_array
@@ -72,8 +73,6 @@ def log_epoch(epoch, nb_epoches, cost, accuracy=None, model=None):
     print(logStr)
 
 
-
-
 def plt_init():
     global g_epoch_array
     global g_cost_array
@@ -81,6 +80,7 @@ def plt_init():
     g_epoch_array = []
     g_cost_array = []
     g_accurcy_array = []
+
 
 def plt_show():
     plt.xlabel("epoch")
@@ -90,4 +90,12 @@ def plt_show():
         plt.plot(g_epoch_array, g_accurcy_array, label="accurcy")
 
     plt.legend()
+    plt.show()
+
+
+def plt_img_show(data, w=None, h=None):
+    if (w is None) or (h is None):
+        plt.imshow(data, cmap="Greys", interpolation="nearest")
+    else:
+        plt.imshow(data.view(w, h), cmap="Greys", interpolation="nearest")
     plt.show()

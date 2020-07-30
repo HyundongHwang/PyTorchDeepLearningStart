@@ -124,5 +124,4 @@ for _ in range(5):
     mu.log("single_prediction", single_prediction)
     single_prediction_res = torch.argmax(single_prediction, 1).item()
     mu.log("single_prediction_res", single_prediction_res)
-    plt.imshow(mnist_test.test_data[r:r + 1].view(28, 28), cmap="Greys", interpolation="nearest")
-    plt.show()
+    mu.plt_img_show(mnist_test.test_data[r:r + 1], 28, 28)
