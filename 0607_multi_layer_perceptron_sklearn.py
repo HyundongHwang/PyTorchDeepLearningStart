@@ -83,3 +83,31 @@ for epoch in range(nb_epochs + 1):
         mu.log_epoch(epoch, nb_epochs, loss)
 
 mu.plt_show()
+
+################################################################################
+# accuracy 측정
+
+
+with torch.no_grad():
+    prediction = model(X)
+    correct_prediction = torch.argmax(prediction, 1) == Y
+    accuracy = correct_prediction.float().mean()
+    mu.log("accuracy", accuracy)
+
+################################################################################
+# 랜덤 5 항목 테스트
+
+
+for _ in range(5):
+    print("-" * 80)
+    r = random.randint(0, len(X) - 1)
+    mu.log("r", r)
+    X_single_data = X[r:r + 1]
+    mu.log("X_single_data.shape", X_single_data.shape)
+    Y_single_data = Y[r:r + 1]
+    mu.log("Y_single_data", Y_single_data)
+    single_prediction = model(X_single_data)
+    mu.log("single_prediction", single_prediction)
+    single_prediction_res = torch.argmax(single_prediction, 1).item()
+    mu.log("single_prediction_res", single_prediction_res)
+    mu.plt_img_show(X_single_data.view(8, 8))
