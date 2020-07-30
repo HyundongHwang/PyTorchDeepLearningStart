@@ -69,11 +69,11 @@ mu.plt_show()
 #   - 이제 모델이 XOR 문제를 풀 수 있는지 테스트 해봅시다.
 
 
-torch.no_grad()
-hypothesis = model(X)
-mu.log("hypothesis", hypothesis)
-predicted = (hypothesis > 0.5).float()
-mu.log("predicted", predicted)
-accuracy = (predicted == Y).float().mean()
-mu.log("Y", Y)
-mu.log("accuracy", accuracy)
+with torch.no_grad():
+    hypothesis = model(X)
+    mu.log("hypothesis", hypothesis)
+    predicted = (hypothesis > 0.5).float()
+    mu.log("predicted", predicted)
+    accuracy = (predicted == Y).float().mean()
+    mu.log("Y", Y)
+    mu.log("accuracy", accuracy)

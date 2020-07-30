@@ -54,11 +54,11 @@ mu.plt_show()
 #   - 총 10,001회 학습한 단층 퍼셉트론의 예측값도 확인해보겠습니다.
 
 
-torch.no_grad()
-hypothesis = model(X)
-mu.log("hypothesis", hypothesis)
-predicted = (hypothesis > 0.5).float()
-mu.log("predicted", predicted)
-accuracy = (predicted == Y).float().mean()
-mu.log("Y", Y)
-mu.log("accuracy", accuracy)
+with torch.no_grad():
+    hypothesis = model(X)
+    mu.log("hypothesis", hypothesis)
+    predicted = (hypothesis > 0.5).float()
+    mu.log("predicted", predicted)
+    accuracy = (predicted == Y).float().mean()
+    mu.log("Y", Y)
+    mu.log("accuracy", accuracy)

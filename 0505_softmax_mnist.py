@@ -104,14 +104,13 @@ for epoch in range(traning_epochs):
 
 mu.plt_show()
 
-torch.no_grad()
-X_test = mnist_test.test_data.view(-1, 28 * 28).float().to(device)
-Y_test = mnist_test.test_labels.to(device)
-
-prediction = model(X_test)
-correct_prediction = torch.argmax(prediction, 1) == Y_test
-accuracy = correct_prediction.float().mean()
-mu.log("accuracy", accuracy)
+with torch.no_grad():
+    X_test = mnist_test.test_data.view(-1, 28 * 28).float().to(device)
+    Y_test = mnist_test.test_labels.to(device)
+    prediction = model(X_test)
+    correct_prediction = torch.argmax(prediction, 1) == Y_test
+    accuracy = correct_prediction.float().mean()
+    mu.log("accuracy", accuracy)
 
 for _ in range(5):
     print("-" * 80)
