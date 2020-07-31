@@ -17,9 +17,15 @@ def to_str(value):
     if is_torch_nn_modules:
         resStr += "{} \n".format(value)
         for param in value.parameters():
-            resStr += "{} {}\n".format(param.shape, param.data)
+            dataStr = "{}".format(param.data)
+            if len(dataStr) > 100:
+                dataStr = dataStr[:100] + " ..."
+            resStr += "{} {}\n".format(param.shape, dataStr)
     elif "torch.Tensor" in valueTypeStr:
-        resStr += "{} {}\n".format(value.shape, value.data)
+        dataStr = "{}".format(value.data)
+        if len(dataStr) > 100:
+            dataStr = dataStr[:100] + " ..."
+        resStr += "{} {}\n".format(value.shape, dataStr)
     else:
         resStr += "{}".format(value)
 
@@ -35,8 +41,10 @@ def log(name, value):
             print("")
         g_oldLogType = "multi"
         print("{} : ".format(name))
+
         for line in valueStr.splitlines():
             print("    {}".format(line))
+
         print("")
     else:
         g_oldLogType = "single"
