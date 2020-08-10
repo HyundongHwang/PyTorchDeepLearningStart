@@ -97,10 +97,10 @@ import matplotlib.pyplot as plt
 
 urllib.request.urlretrieve(
     url="https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt",
-    filename="ratings.txt"
+    filename=".ratings.txt"
 )
 
-data = pd.read_table("ratings.txt")
+data = pd.read_table(".ratings.txt")
 mu.log("len(data)", len(data))
 mu.log("data[:10]", data[:10])
 sample_data = data[:100]
