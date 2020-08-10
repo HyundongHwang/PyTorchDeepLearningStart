@@ -53,9 +53,8 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
     
     if epoch % 100 == 0:
-        prediction = hypothesis >= torch.FloatTensor([0.5])
-        correct_prediction = prediction.float() == y_train
-        accuracy = correct_prediction.sum().item() / len(correct_prediction)
-        mu.log_epoch(epoch, nb_epoches, cost, accuracy, model)
+        accuracy = mu.get_binary_classification_accuracy(hypothesis, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)

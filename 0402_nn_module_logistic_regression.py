@@ -48,6 +48,7 @@ nb_epoches = 1000
 
 plt_epoch = []
 plt_accuracy = []
+mu.plt_init()
 
 for epoch in range(nb_epoches + 1):
     hypothesis = model(x_train)
@@ -57,16 +58,9 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        prediction = hypothesis > torch.FloatTensor([0.5])
-        correct_prediction = prediction.float() == y_train
-        accuracy = correct_prediction.sum().item() / len(correct_prediction)
-        mu.log_epoch(epoch, nb_epoches, cost, accuracy, model)
+        accuracy = mu.get_binary_classification_accuracy(hypothesis, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
         plt_epoch.append(epoch)
         plt_accuracy.append(accuracy)
 
-import matplotlib.pyplot as plt  # 맷플롯립사용
-
-plt.plot(plt_epoch, plt_accuracy, label="accuracy")
-plt.xlabel("epoch")
-plt.legend()
-plt.show()
+mu.plt_show()

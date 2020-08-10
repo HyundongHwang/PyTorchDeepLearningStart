@@ -16,22 +16,25 @@ torch.manual_seed(1)
 x_train = torch.FloatTensor([[1], [2], [3]])
 y_train = torch.FloatTensor([[2], [4], [6]])
 
-model = nn.Linear(1, 1)
+model = nn.Linear(in_features=1, out_features=1)
 mu.log("model", model)
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 nb_epochs = 2000
 mu.plt_init()
 
 for epoch in range(nb_epochs + 1):
-    hyperthesis = model(x_train)
-    cost = F.mse_loss(hyperthesis, y_train)
+    hypothesis = model(x_train)
+    cost = F.mse_loss(hypothesis, y_train)
+    
+    # accuracy 계산
+    accuracy = mu.get_regression_accuracy(hypothesis, y_train)
 
     optimizer.zero_grad()
     cost.backward()
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost, model=model)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
 
 mu.plt_show()
 

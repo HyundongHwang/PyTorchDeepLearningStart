@@ -60,9 +60,11 @@ for epoch in range(nb_epochs):
     optimizer.step()
 
     if epoch % 1000 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost)
+        accuracy = mu.get_binary_classification_accuracy(hypothesis, Y)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)
 
 ################################################################################
 # - 다층 퍼셉트론의 예측값 확인하기
@@ -71,9 +73,5 @@ mu.plt_show()
 
 with torch.no_grad():
     hypothesis = model(X)
-    mu.log("hypothesis", hypothesis)
-    predicted = (hypothesis > 0.5).float()
-    mu.log("predicted", predicted)
-    accuracy = (predicted == Y).float().mean()
-    mu.log("Y", Y)
+    accuracy = mu.get_binary_classification_accuracy(hypothesis, Y)
     mu.log("accuracy", accuracy)

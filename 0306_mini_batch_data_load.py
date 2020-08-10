@@ -36,9 +36,11 @@ for epoch in range(nb_epoches + 1):
         mu.log("samples", samples)
         prediction = model(x_train)
         cost = F.mse_loss(prediction, y_train)
+        accuracy = mu.get_regression_accuracy(prediction, y_train)
         optimizer.zero_grad()
         cost.backward()
         optimizer.step()
-        mu.log_epoch(epoch, nb_epoches, cost, model=model)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)

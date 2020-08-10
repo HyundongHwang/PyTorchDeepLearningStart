@@ -80,9 +80,12 @@ for epoch in range(nb_epochs + 1):
     optimizer.step()
 
     if epoch % 10 == 0:
-        mu.log_epoch(epoch, nb_epochs, loss)
+        accuracy = mu.get_cross_entropy_accuracy(y_pred, Y)
+        mu.log_epoch(epoch, nb_epochs, loss, accuracy)
 
 mu.plt_show()
+
+mu.log("model", model)
 
 ################################################################################
 # accuracy 측정
@@ -90,8 +93,7 @@ mu.plt_show()
 
 with torch.no_grad():
     prediction = model(X)
-    correct_prediction = torch.argmax(prediction, 1) == Y
-    accuracy = correct_prediction.float().mean()
+    accuracy = mu.get_cross_entropy_accuracy(prediction, Y)
     mu.log("accuracy", accuracy)
 
 ################################################################################

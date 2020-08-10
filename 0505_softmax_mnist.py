@@ -100,17 +100,24 @@ for epoch in range(traning_epochs):
         optimizer.step()
         avg_cost += cost / total_batch
 
-    mu.log_epoch(epoch, traning_epochs, avg_cost)
+    accuracy = mu.get_cross_entropy_accuracy(hypothesis, Y)
+    mu.log_epoch(epoch, traning_epochs, avg_cost, accuracy)
 
 mu.plt_show()
+
+################################################################################
+# 학습은 끝나고,
+# 평가데이타를 이용하여 정확도 평가
 
 with torch.no_grad():
     X_test = mnist_test.test_data.view(-1, 28 * 28).float().to(device)
     Y_test = mnist_test.test_labels.to(device)
     prediction = model(X_test)
-    correct_prediction = torch.argmax(prediction, 1) == Y_test
-    accuracy = correct_prediction.float().mean()
+    accuracy = mu.get_cross_entropy_accuracy(prediction, Y_test)
     mu.log("accuracy", accuracy)
+
+################################################################################
+# 무작위로 5개의 데이타만 선택해서 이미지를 출력하면서 화면으로 확인해 봄.
 
 for _ in range(5):
     print("-" * 80)

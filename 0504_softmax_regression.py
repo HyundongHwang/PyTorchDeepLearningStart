@@ -53,9 +53,12 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epoches, cost)
+        accuracy = mu.get_cross_entropy_accuracy(hypothesis, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("W", W)
+mu.log("b", b)
 
 ################################################################################
 # - 소프트맥스 회귀 구현하기(하이-레벨)
@@ -78,9 +81,12 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epoches, cost)
+        accuracy = mu.get_cross_entropy_accuracy(z, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("W", W)
+mu.log("b", b)
 
 ################################################################################
 # - 소프트맥스 회귀 nn.Module로 구현하기
@@ -102,9 +108,11 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epoches, cost, model=model)
+        accuracy = mu.get_cross_entropy_accuracy(prediction, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)
 
 
 ################################################################################
@@ -135,6 +143,8 @@ for epoch in range(nb_epoches + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epoches, cost, model=model)
+        accuracy = mu.get_cross_entropy_accuracy(prediction, y_train)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)

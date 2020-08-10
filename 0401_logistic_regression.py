@@ -92,18 +92,17 @@ mu.plt_init()
 for epoch in range(nb_epoches + 1):
     hypothesis = torch.sigmoid(x_train.matmul(W) + b)
     cost = -(y_train * torch.log(hypothesis) + (1 - y_train) * torch.log(1 - hypothesis)).mean()
+    accuracy = mu.get_regression_accuracy(hypothesis, y_train)
     optimizer.zero_grad()
     cost.backward()
     optimizer.step()
 
     if epoch % 100 == 0:
-        print("-" * 80)
-        print("-" * 80)
-        mu.log_epoch(epoch, nb_epoches, cost)
-        mu.log("W", W)
-        mu.log("b", b)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("W", W)
+mu.log("b", b)
 
 prediction = hypothesis >= torch.FloatTensor([0.5])
 mu.log("prediction", prediction)

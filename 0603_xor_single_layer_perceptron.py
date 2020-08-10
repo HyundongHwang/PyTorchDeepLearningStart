@@ -45,9 +45,11 @@ for epoch in range(nb_epochs + 1):
     optimizer.step()
 
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost, model=model)
+        accuracy = mu.get_binary_classification_accuracy(hypothesis, Y)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)
 
 ################################################################################
 # - 학습된 단층 퍼셉트론의 예측값 확인하기

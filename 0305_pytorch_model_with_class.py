@@ -37,12 +37,14 @@ mu.plt_init()
 for epoch in range(nb_epoches + 1):
     predication = model(x_train)
     cost = F.mse_loss(predication, y_train)
+    accuracy = mu.get_regression_accuracy(predication, y_train)
 
     optimizer.zero_grad()
     cost.backward()
     optimizer.step()
 
     if epoch % 100 == 0 :
-        mu.log_epoch(epoch, nb_epoches, cost, model=model)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)

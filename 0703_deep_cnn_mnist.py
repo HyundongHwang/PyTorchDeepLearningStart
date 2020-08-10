@@ -174,6 +174,8 @@ mu.plt_init()
 
 for epoch in range(training_epochs + 1):
     avg_cost = 0
+    hypothesis = None
+    Y = None
 
     for X, Y in data_loader:
         X = X.to(device)
@@ -188,9 +190,12 @@ for epoch in range(training_epochs + 1):
 
         avg_cost += cost / total_batch
 
-    mu.log_epoch(epoch, training_epochs, avg_cost)
+    accuracy = mu.get_cross_entropy_accuracy(hypothesis, Y)
+    mu.log_epoch(epoch, training_epochs, avg_cost, accuracy)
 
 mu.plt_show()
+
+mu.log("model", model)
 
 ################################################################################
 # - 이제 테스트를 해보겠습니다.
@@ -203,6 +208,5 @@ with torch.no_grad():
     Y_test = mnist_test.test_labels.to(device)
 
     prediction = model(X_test)
-    correct_prediction = torch.argmax(prediction, 1) == Y_test
-    accuracy = correct_prediction.float().mean()
+    accuracy = mu.get_cross_entropy_accuracy(prediction, Y)
     mu.log("accuracy", accuracy)

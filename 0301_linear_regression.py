@@ -18,6 +18,9 @@ b = torch.zeros(1, requires_grad=True)
 optimizer = optim.SGD([W, b], lr=0.01)
 
 nb_epochs = 2000  # 원하는만큼 경사 하강법을 반복
+
+mu.plt_init()
+
 for epoch in range(nb_epochs + 1):
 
     # H(x) 계산
@@ -26,6 +29,9 @@ for epoch in range(nb_epochs + 1):
     # cost 계산
     cost = torch.mean((hypothesis - y_train) ** 2)
 
+    # accuracy 계산
+    accuracy = mu.get_regression_accuracy(hypothesis, y_train)
+
     # cost로 H(x) 개선
     optimizer.zero_grad()
     cost.backward()
@@ -33,9 +39,11 @@ for epoch in range(nb_epochs + 1):
 
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost)
-        mu.log("W", W)
-        mu.log("b", b)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
+
+mu.plt_show()
+mu.log("W", W)
+mu.log("b", b)
 
 ################################################################################
 # optimizer.zero_grad()가 필요한 이유

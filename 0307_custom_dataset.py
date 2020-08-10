@@ -50,9 +50,11 @@ for epoch in range(nb_epoches + 1):
         mu.log("samples", samples)
         prediction = model(torch.FloatTensor(dataset.x_data))
         cost = F.mse_loss(prediction, torch.FloatTensor(dataset.y_data))
+        accuracy = mu.get_regression_accuracy(prediction, torch.FloatTensor(dataset.y_data))
         optimizer.zero_grad()
         cost.backward()
         optimizer.step()
-        mu.log_epoch(epoch, nb_epoches, cost, model=model)
+        mu.log_epoch(epoch, nb_epoches, cost, accuracy)
 
 mu.plt_show()
+mu.log("model", model)

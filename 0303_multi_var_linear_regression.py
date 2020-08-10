@@ -27,12 +27,14 @@ nb_epochs = 1000
 mu.plt_init()
 
 for epoch in range(nb_epochs + 1):
-
     # H(x) 계산
     hypothesis = x1_train * w1 + x2_train * w2 + x3_train * w3 + b
 
     # cost 계산
     cost = torch.mean((hypothesis - y_train) ** 2)
+
+    # accuracy 계산
+    accuracy = mu.get_regression_accuracy(hypothesis, y_train)
 
     # cost로 H(x) 개선
     optimizer.zero_grad()
@@ -41,25 +43,24 @@ for epoch in range(nb_epochs + 1):
 
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost)
-        mu.log("w1", w1)
-        mu.log("w2", w2)
-        mu.log("w3", w3)
-        mu.log("b", b)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
 
 mu.plt_show()
-
+mu.log("w1", w1)
+mu.log("w2", w2)
+mu.log("w3", w3)
+mu.log("b", b)
 
 ################################################################################
 # 벡터와 행렬 연산으로 바꾸기
 
-x_train  =  torch.FloatTensor([[73,  80,  75],
-                               [93,  88,  93],
-                               [89,  91,  90],
-                               [96,  98,  100],
-                               [73,  66,  70]])
+x_train = torch.FloatTensor([[73, 80, 75],
+                             [93, 88, 93],
+                             [89, 91, 90],
+                             [96, 98, 100],
+                             [73, 66, 70]])
 
-y_train  =  torch.FloatTensor([[152],  [185],  [180],  [196],  [142]])
+y_train = torch.FloatTensor([[152], [185], [180], [196], [142]])
 
 mu.log("x_train.shape", x_train.shape)
 mu.log("y_train.shape", y_train.shape)
@@ -69,12 +70,12 @@ b = torch.zeros(1, requires_grad=True)
 
 hypothesis = x_train.matmul(W) + b
 
-x_train  =  torch.FloatTensor([[73,  80,  75],
-                               [93,  88,  93],
-                               [89,  91,  90],
-                               [96,  98,  100],
-                               [73,  66,  70]])
-y_train  =  torch.FloatTensor([[152],  [185],  [180],  [196],  [142]])
+x_train = torch.FloatTensor([[73, 80, 75],
+                             [93, 88, 93],
+                             [89, 91, 90],
+                             [96, 98, 100],
+                             [73, 66, 70]])
+y_train = torch.FloatTensor([[152], [185], [180], [196], [142]])
 
 # 모델 초기화
 W = torch.zeros((3, 1), requires_grad=True)
@@ -94,16 +95,18 @@ for epoch in range(nb_epochs + 1):
     # cost 계산
     cost = torch.mean((hypothesis - y_train) ** 2)
 
+    # accuracy 계산
+    accuracy = mu.get_regression_accuracy(hypothesis, y_train)
+
     # cost로 H(x) 개선
     optimizer.zero_grad()
     cost.backward()
     optimizer.step()
 
-
     # 100번마다 로그 출력
     if epoch % 100 == 0:
-        mu.log_epoch(epoch, nb_epochs, cost)
-        mu.log("W", W)
-        mu.log("b", b)
+        mu.log_epoch(epoch, nb_epochs, cost, accuracy)
 
 mu.plt_show()
+mu.log("W", W)
+mu.log("b", b)
